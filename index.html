@@ -1,1 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>É O VOLEI DUUUUUUR</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap');
 
+  :root{
+    --sand: #E8D9B5;
+    --sand-dark: #D9C393;
+    --net-line: #ffffff;
+    --court-blue: #1B4B6B;
+    --ink: #1A2B2E;
+    --orange: #F4642B;
+    --orange-dark: #C94E1E;
+    --pink: #E85D75;
+    --green: #3E8F6D;
+    --line: rgba(26,43,46,0.14);
+    --white: #FFFCF6;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(26,43,46,0.035) 38px, rgba(26,43,46,0.035) 39px),
+      var(--sand);
+    font-family:'Barlow', sans-serif;
+    color:var(--ink);
+    padding:0 0 60px 0;
+    min-height:100vh;
+  }
+
+  .hero{
+    position:relative;
+    background:var(--court-blue);
+    padding:38px 20px 46px;
+    overflow:hidden;
+    border-bottom:6px solid var(--orange);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 64px);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:50%;
+    height:3px;
+    background:repeating-linear-gradient(90deg, #fff 0 10px, transparent 10px 20px);
+    opacity:0.35;
+  }
+  .net-post{
+    position:absolute;
+    top:0; bottom:0;
+    width:4px;
+    background:rgba(255,255,255,0.25);
+  }
+  .net-post.left{left:8%;}
+  .net-post.right{right:8%;}
+
+  .hero-inner{
+    position:relative;
+    max-width:720px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'Barlow Condensed', sans-serif;
+    letter-spacing:0.35em;
+    font-size:12px;
+    color:var(--orange);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Archivo Black', sans-serif;
+    color:var(--white);
+    font-size:clamp(34px, 8vw, 62px);
+    line-height:0.98;
+    margin:0;
+    letter-spacing:-0.01em;
+    text-shadow: 3px 3px 0 var(--orange-dark);
+  }
+  .meta-row{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:22px;
+  }
+  .meta-chip{
+    background:rgba(255,255,255,0.1);
+    border:1.5px solid rgba(255,255,255,0.35);
+    color:var(--white);
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:600;
+    letter-spacing:0.06em;
+    font-size:16px;
+    padding:8px 18px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .meta-chip b{ color:var(--orange); font-weight:700; }
+
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+  .card{
+    background:var(--white);
+    border-radius:18px;
+    box-shadow: 0 10px 0 rgba(26,43,46,0.06), 0 2px 10px rgba(26,43,46,0.08);
+    padding:26px 22px;
+    margin-top:-26px;
+    position:relative;
+    z-index:2;
+    border:1px solid var(--line);
+  }
+  .section-title{
+    font-family:'Barlow Condensed', sans-serif;
+    text-transform:uppercase;
+    font-weight:700;
+    letter-spacing:0.08em;
+    font-size:14px;
+    color:var(--court-blue);
+    margin:0 0 14px 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .section-title .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);
+  }
+
+  .form-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:stretch;
+  }
+  #nameInput{
+    flex:1 1 200px;
+    min-width:0;
+    padding:13px 14px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    font-family:'Barlow', sans-serif;
+    font-size:16px;
+    background:var(--sand);
+    color:var(--ink);
+  }
+  #nameInput:focus{
+    outline:none;
+    border-color:var(--orange);
+    background:var(--white);
+  }
+  .toggle-group{
+    display:flex;
+    gap:6px;
+  }
+  .toggle-btn{
+    border:1.5px solid var(--line);
+    background:var(--white);
+    padding:0 16px;
+    border-radius:10px;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+    min-width:52px;
+    color:var(--ink);
+    transition: all .12s ease;
+  }
+  .toggle-btn.m-active{ background:var(--court-blue); border-color:var(--court-blue); color:var(--white); }
+  .toggle-btn.f-active{ background:var(--pink); border-color:var(--pink); color:var(--white); }
+  .toggle-btn.mensal-active{ background:var(--green); border-color:var(--green); color:var(--white); }
+  .toggle-btn.avulso-active{ background:var(--orange); border-color:var(--orange); color:var(--white); }
+
+  .form-groups{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .group-label{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#7a7266;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+
+  .add-btn{
+    margin-top:16px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:var(--orange);
+    color:var(--white);
+    font-family:'Archivo Black', sans-serif;
+    font-size:15px;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    transition: transform .08s ease, background .12s ease;
+  }
+  .add-btn:hover{ background:var(--orange-dark); }
+  .add-btn:active{ transform: scale(0.98); }
+
+  .list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .list-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    background:var(--sand);
+    border-radius:10px;
+    border:1px solid var(--line);
+  }
+  .badge{
+    font-family:'Archivo Black', sans-serif;
+    font-size:13px;
+    width:26px;height:26px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--white);
+    flex-shrink:0;
+  }
+  .badge.M{ background:var(--court-blue); }
+  .badge.F{ background:var(--pink); }
+  .item-name{
+    flex:1;
+    font-weight:600;
+    font-size:16px;
+    word-break:break-word;
+  }
+  .tag{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:999px;
+    flex-shrink:0;
+  }
+  .tag.mensal{ background:rgba(62,143,109,0.15); color:var(--green); }
+  .tag.avulso{ background:rgba(244,100,43,0.15); color:var(--orange-dark); }
+  .del-btn{
+    background:none;
+    border:none;
+    color:#b0473f;
+    font-family:'Archivo Black', sans-serif;
+    font-size:16px;
+    cursor:pointer;
+    width:28px;height:28px;
+    border-radius:50%;
+    flex-shrink:0;
+    transition: background .12s ease;
+  }
+  .del-btn:hover{ background:rgba(176,71,63,0.15); }
+
+  .empty-state{
+    text-align:center;
+    padding:26px 10px;
+    color:#9a9284;
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:15px;
+  }
+
+  .counts{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+  .count-pill{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    padding:6px 12px;
+    border-radius:999px;
+    background:var(--sand);
+    border:1px solid var(--line);
+  }
+
+  .sorteio-btn{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:14px;
+    background: var(--court-blue);
+    color:var(--white);
+    font-family:'Archivo Black', sans-serif;
+    font-size:18px;
+    letter-spacing:0.03em;
+    cursor:pointer;
+    box-shadow: 0 6px 0 #0F3247;
+    transition: transform .08s ease;
+  }
+  .sorteio-btn:active{ transform: translateY(4px); box-shadow: 0 2px 0 #0F3247; }
+  .sorteio-btn:disabled{
+    background:#b8b0a0; box-shadow:0 6px 0 #948c7d; cursor:not-allowed;
+  }
+
+  .teams-wrap{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .team-card{
+    background:var(--sand);
+    border-radius:14px;
+    padding:16px 18px;
+    border:1.5px dashed var(--court-blue);
+  }
+  .team-title{
+    font-family:'Archivo Black', sans-serif;
+    font-size:16px;
+    color:var(--court-blue);
+    margin:0 0 10px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .team-title span.n{ font-family:'Barlow Condensed', sans-serif; font-size:12px; font-weight:600; color:#7a7266; }
+  .team-members{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .member-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:var(--white);
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+    border:1px solid var(--line);
+  }
+
+  footer{
+    text-align:center;
+    margin-top:30px;
+    font-family:'Barlow Condensed', sans-serif;
+    color:#9a9284;
+    font-size:12px;
+    letter-spacing:0.08em;
+  }
+
+  @media (max-width:480px){
+    .form-row{ flex-direction:column; }
+    .toggle-group{ justify-content:stretch; }
+    .toggle-btn{ flex:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="net-post left"></div>
+  <div class="net-post right"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">TODA SEMANA TEM</div>
+    <h1>É O VOLEI<br>DUUUUUUR</h1>
+    <div class="meta-row">
+      <div class="meta-chip">📍 Quadra <b>F10</b></div>
+      <div class="meta-chip">🕤 <b>21:30</b> às <b>23:30</b></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="card">
+    <p class="section-title"><span class="dot"></span>Adicionar jogador(a)</p>
+    <div class="form-row">
+      <input type="text" id="nameInput" placeholder="Nome do jogador(a)" maxlength="40">
+    </div>
+    <div class="form-groups">
+      <div>
+        <div class="group-label">Sexo</div>
+        <div class="toggle-group" id="genderGroup">
+          <button type="button" class="toggle-btn" data-gender="M">M</button>
+          <button type="button" class="toggle-btn" data-gender="F">F</button>
+        </div>
+      </div>
+      <div>
+        <div class="group-label">Tipo</div>
+        <div class="toggle-group" id="typeGroup">
+          <button type="button" class="toggle-btn" data-type="mensal">Mensal</button>
+          <button type="button" class="toggle-btn" data-type="avulso">Avulso</button>
+        </div>
+      </div>
+    </div>
+    <button class="add-btn" id="addBtn">+ CONFIRMAR PRESENÇA</button>
+  </div>
+
+  <div class="card">
+    <p class="section-title"><span class="dot"></span>Confirmados</p>
+    <ul class="list" id="playerList"></ul>
+    <div id="emptyState" class="empty-state">Ninguém confirmado ainda. Bora ser o primeiro? 🏐</div>
+    <div class="counts" id="countsRow"></div>
+  </div>
+
+  <div class="card">
+    <p class="section-title"><span class="dot"></span>Sorteio</p>
+    <button class="sorteio-btn" id="sorteioBtn">🏐 SORTEIO DE TIMES</button>
+    <div class="teams-wrap" id="teamsWrap"></div>
+  </div>
+
+  <footer>É O VOLEI DUUUUUUR · toda semana, sem desculpa</footer>
+</main>
+
+<script>
+  let players = [];
+  let selectedGender = null;
+  let selectedType = null;
+
+  const STORAGE_KEY = 'volei-players';
+
+  async function loadPlayers(){
+    try{
+      const res = await window.storage.get(STORAGE_KEY, true);
+      players = res ? JSON.parse(res.value) : [];
+    }catch(e){
+      players = [];
+    }
+    render();
+  }
+
+  async function savePlayers(){
+    try{
+      await window.storage.set(STORAGE_KEY, JSON.stringify(players), true);
+    }catch(e){
+      console.error('Erro ao salvar', e);
+    }
+  }
+
+  const genderGroup = document.getElementById('genderGroup');
+  const typeGroup = document.getElementById('typeGroup');
+
+  genderGroup.addEventListener('click', (e) => {
+    const btn = e.target.closest('.toggle-btn');
+    if(!btn) return;
+    selectedGender = btn.dataset.gender;
+    [...genderGroup.children].forEach(b => {
+      b.classList.remove('m-active','f-active');
+    });
+    btn.classList.add(selectedGender === 'M' ? 'm-active' : 'f-active');
+  });
+
+  typeGroup.addEventListener('click', (e) => {
+    const btn = e.target.closest('.toggle-btn');
+    if(!btn) return;
+    selectedType = btn.dataset.type;
+    [...typeGroup.children].forEach(b => {
+      b.classList.remove('mensal-active','avulso-active');
+    });
+    btn.classList.add(selectedType === 'mensal' ? 'mensal-active' : 'avulso-active');
+  });
+
+  document.getElementById('addBtn').addEventListener('click', async () => {
+    const input = document.getElementById('nameInput');
+    const name = input.value.trim();
+    if(!name){
+      input.focus();
+      return;
+    }
+    if(!selectedGender){
+      alert('Marca se é M ou F antes de confirmar!');
+      return;
+    }
+    if(!selectedType){
+      alert('Marca se é Mensal ou Avulso antes de confirmar!');
+      return;
+    }
+    players.push({
+      id: Date.now() + Math.random().toString(16).slice(2),
+      name,
+      gender: selectedGender,
+      type: selectedType
+    });
+    await savePlayers();
+    input.value = '';
+    selectedGender = null;
+    selectedType = null;
+    [...genderGroup.children].forEach(b => b.classList.remove('m-active','f-active'));
+    [...typeGroup.children].forEach(b => b.classList.remove('mensal-active','avulso-active'));
+    document.getElementById('teamsWrap').innerHTML = '';
+    render();
+    input.focus();
+  });
+
+  document.getElementById('nameInput').addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      document.getElementById('addBtn').click();
+    }
+  });
+
+  async function removePlayer(id){
+    players = players.filter(p => p.id !== id);
+    await savePlayers();
+    document.getElementById('teamsWrap').innerHTML = '';
+    render();
+  }
+
+  function render(){
+    const list = document.getElementById('playerList');
+    const empty = document.getElementById('emptyState');
+    const counts = document.getElementById('countsRow');
+
+    list.innerHTML = '';
+    if(players.length === 0){
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      players.forEach(p => {
+        const li = document.createElement('li');
+        li.className = 'list-item';
+        li.innerHTML = `
+          <span class="badge ${p.gender}">${p.gender}</span>
+          <span class="item-name">${escapeHtml(p.name)}</span>
+          <span class="tag ${p.type}">${p.type === 'mensal' ? 'Mensal' : 'Avulso'}</span>
+          <button class="del-btn" title="Remover" data-id="${p.id}">✕</button>
+        `;
+        list.appendChild(li);
+      });
+      list.querySelectorAll('.del-btn').forEach(btn => {
+        btn.addEventListener('click', () => removePlayer(btn.dataset.id));
+      });
+    }
+
+    const totalM = players.filter(p => p.gender === 'M').length;
+    const totalF = players.filter(p => p.gender === 'F').length;
+    const totalMensal = players.filter(p => p.type === 'mensal').length;
+    const totalAvulso = players.filter(p => p.type === 'avulso').length;
+
+    counts.innerHTML = `
+      <span class="count-pill">👥 Total: ${players.length}</span>
+      <span class="count-pill">🔵 M: ${totalM}</span>
+      <span class="count-pill">🩷 F: ${totalF}</span>
+      <span class="count-pill">🟢 Mensal: ${totalMensal}</span>
+      <span class="count-pill">🟠 Avulso: ${totalAvulso}</span>
+    `;
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function shuffle(arr){
+    const a = [...arr];
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  document.getElementById('sorteioBtn').addEventListener('click', () => {
+    const wrap = document.getElementById('teamsWrap');
+    if(players.length < 2){
+      wrap.innerHTML = '<div class="empty-state">Precisa de pelo menos 2 confirmados pra sortear!</div>';
+      return;
+    }
+
+    const total = players.length;
+    const numTeams = Math.max(1, Math.ceil(total / 6));
+
+    const sizes = new Array(numTeams).fill(6);
+    let assignedSoFar = 6 * numTeams;
+    let diff = assignedSoFar - total;
+    let idx = numTeams - 1;
+    while(diff > 0 && idx >= 0){
+      if(sizes[idx] > 0){
+        sizes[idx] -= 1;
+        diff -= 1;
+      }
+      idx -= 1;
+      if(idx < 0) idx = numTeams - 1;
+    }
+
+    const men = shuffle(players.filter(p => p.gender === 'M'));
+    const women = shuffle(players.filter(p => p.gender === 'F'));
+
+    const teams = Array.from({length: numTeams}, () => []);
+
+    let t = 0;
+    const pushToNextAvailable = (person) => {
+      let attempts = 0;
+      while(attempts < numTeams){
+        if(teams[t].length < sizes[t]){
+          teams[t].push(person);
+          t = (t + 1) % numTeams;
+          return true;
+        }
+        t = (t + 1) % numTeams;
+        attempts++;
+      }
+      return false;
+    };
+
+    women.forEach(w => pushToNextAvailable(w));
+    men.forEach(m => pushToNextAvailable(m));
+
+    wrap.innerHTML = '';
+    teams.forEach((team, i) => {
+      if(team.length === 0) return;
+      const mCount = team.filter(p => p.gender === 'M').length;
+      const fCount = team.filter(p => p.gender === 'F').length;
+      const card = document.createElement('div');
+      card.className = 'team-card';
+      card.innerHTML = `
+        <p class="team-title">TIME ${i + 1} <span class="n">${team.length} jogador(es) · ${mCount}M / ${fCount}F</span></p>
+        <div class="team-members">
+          ${team.map(p => `<span class="member-chip"><span class="badge ${p.gender}" style="width:18px;height:18px;font-size:10px;">${p.gender}</span>${escapeHtml(p.name)}</span>`).join('')}
+        </div>
+      `;
+      wrap.appendChild(card);
+    });
+  });
+
+  loadPlayers();
+</script>
+
+</body>
+</html>
