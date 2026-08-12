@@ -439,19 +439,22 @@
 
   const STORAGE_KEY = 'volei-players';
 
-  async function loadPlayers(){
+  // Atualizado para usar localStorage nativo
+  function loadPlayers(){
     try{
-      const res = await window.storage.get(STORAGE_KEY, true);
-      players = res ? JSON.parse(res.value) : [];
+      const res = localStorage.getItem(STORAGE_KEY);
+      players = res ? JSON.parse(res) : [];
     }catch(e){
+      console.error('Erro ao carregar', e);
       players = [];
     }
     render();
   }
 
-  async function savePlayers(){
+  // Atualizado para usar localStorage nativo
+  function savePlayers(){
     try{
-      await window.storage.set(STORAGE_KEY, JSON.stringify(players), true);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
     }catch(e){
       console.error('Erro ao salvar', e);
     }
@@ -480,7 +483,7 @@
     btn.classList.add(selectedType === 'mensal' ? 'mensal-active' : 'avulso-active');
   });
 
-  document.getElementById('addBtn').addEventListener('click', async () => {
+  document.getElementById('addBtn').addEventListener('click', () => {
     const input = document.getElementById('nameInput');
     const name = input.value.trim();
     if(!name){
@@ -501,7 +504,7 @@
       gender: selectedGender,
       type: selectedType
     });
-    await savePlayers();
+    savePlayers();
     input.value = '';
     selectedGender = null;
     selectedType = null;
@@ -518,9 +521,9 @@
     }
   });
 
-  async function removePlayer(id){
+  function removePlayer(id){
     players = players.filter(p => p.id !== id);
-    await savePlayers();
+    savePlayers();
     document.getElementById('teamsWrap').innerHTML = '';
     render();
   }
